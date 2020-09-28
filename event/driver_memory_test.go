@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-var m = MessageDriverMemory{
+var m = messageDriverMemory{
 	tree: trie.New(),
 }
 

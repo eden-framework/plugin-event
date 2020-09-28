@@ -9,14 +9,14 @@ import (
 )
 
 var _ interface {
-	MessageDriver
-} = (*MessageDriverMemory)(nil)
+	messageDriver
+} = (*messageDriverMemory)(nil)
 
-type MessageDriverMemory struct {
+type messageDriverMemory struct {
 	tree *trie.Trie
 }
 
-func (m *MessageDriverMemory) Subscribe(topic string, handler MessageRunner) {
+func (m *messageDriverMemory) Subscribe(topic string, handler MessageRunner) {
 	var handlers *list.SyncedList
 	if node, ok := m.tree.Find(topic); ok {
 		handlers, _ = node.Meta().(*list.SyncedList)
@@ -27,7 +27,7 @@ func (m *MessageDriverMemory) Subscribe(topic string, handler MessageRunner) {
 	m.tree.Add(topic, handlers)
 }
 
-func (m *MessageDriverMemory) Unsubscribe(topic string, handler MessageRunner) {
+func (m *messageDriverMemory) Unsubscribe(topic string, handler MessageRunner) {
 	var handlers *list.SyncedList
 	if node, ok := m.tree.Find(topic); ok {
 		handlers, _ = node.Meta().(*list.SyncedList)
@@ -52,7 +52,7 @@ func (m *MessageDriverMemory) Unsubscribe(topic string, handler MessageRunner) {
 	}
 }
 
-func (m *MessageDriverMemory) Publish(message Message) (result []Message, err error) {
+func (m *messageDriverMemory) Publish(message Message) (result []Message, err error) {
 	if message.Topic == "" {
 		return nil, errors.New("topic must NOT be empty")
 	}
@@ -84,7 +84,7 @@ func (m *MessageDriverMemory) Publish(message Message) (result []Message, err er
 	return
 }
 
-func (m *MessageDriverMemory) AsyncPublish(message Message) (<-chan Message, error) {
+func (m *messageDriverMemory) AsyncPublish(message Message) (<-chan Message, error) {
 	if message.Topic == "" {
 		return nil, errors.New("topic must NOT be empty")
 	}
@@ -116,8 +116,8 @@ func (m *MessageDriverMemory) AsyncPublish(message Message) (<-chan Message, err
 	return replyChannel, nil
 }
 
-func NewMemoryMessageBus() MessageDriver {
-	return &MessageDriverMemory{
+func newMemoryMessageBus() *messageDriverMemory {
+	return &messageDriverMemory{
 		tree: trie.New(),
 	}
 }

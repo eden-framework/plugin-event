@@ -15,19 +15,18 @@ func (g *GenerationPlugin) GenerateEntryPoint(opt plugins.Option, cwd string) st
 	globalPkgPath := path.Join(opt.PackageName, "internal/global")
 	globalFilePath := path.Join(cwd, "internal/global")
 	tpl := fmt.Sprintf(`,
-		{{ .UseWithoutAlias "github.com/eden-framework/eden-framework/pkg/application" "" }}.WithConfig(&{{ .UseWithoutAlias "%s" "%s" }}.RedisConfig)`, globalPkgPath, globalFilePath)
+		{{ .UseWithoutAlias "github.com/eden-framework/eden-framework/pkg/application" "" }}.WithConfig(&{{ .UseWithoutAlias "%s" "%s" }}.EventConfig)`, globalPkgPath, globalFilePath)
 	return tpl
 }
 
 func (g *GenerationPlugin) GenerateFilePoint(opt plugins.Option, cwd string) []*plugins.FileTemplate {
 	file := plugins.NewFileTemplate("global", path.Join(cwd, "internal/global/redis.go"))
 	file.WithBlock(`
-var RedisConfig = struct {
-	Redis *{{ .UseWithoutAlias "github.com/eden-framework/plugin-redis/redis" "" }}.Redis
+var EventConfig = struct {
+	Event *{{ .UseWithoutAlias "github.com/eden-framework/plugin-event/event" "" }}.MessageBus
 }{
-	Redis: &{{ .UseWithoutAlias "github.com/eden-framework/plugin-redis/redis" "" }}.Redis{
-		Host: "localhost",
-		Port: 6379,
+	Event: &{{ .UseWithoutAlias "github.com/eden-framework/plugin-event/event" "" }}.MessageBus{
+		Driver: event.DRIVER_TYPE__MEMORY,
 	},
 }
 `)

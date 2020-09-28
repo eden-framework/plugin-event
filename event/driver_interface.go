@@ -7,7 +7,7 @@ type MessageHandler struct {
 	Runner MessageRunner
 }
 
-type MessageDriver interface {
+type messageDriver interface {
 	Subscribe(topic string, handler MessageRunner)
 	Unsubscribe(topic string, handler MessageRunner)
 	Publish(message Message) ([]Message, error)

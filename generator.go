@@ -20,7 +20,7 @@ func (g *GenerationPlugin) GenerateEntryPoint(opt plugins.Option, cwd string) st
 }
 
 func (g *GenerationPlugin) GenerateFilePoint(opt plugins.Option, cwd string) []*plugins.FileTemplate {
-	file := plugins.NewFileTemplate("global", path.Join(cwd, "internal/global/redis.go"))
+	file := plugins.NewFileTemplate("global", path.Join(cwd, "internal/global/event.go"))
 	file.WithBlock(`
 var EventConfig = struct {
 	Event *{{ .UseWithoutAlias "github.com/eden-framework/plugin-event/event" "" }}.MessageBus

@@ -20,11 +20,12 @@ func (m *messageDriverMemory) Subscribe(topic string, handler MessageRunner) {
 	var handlers *list.SyncedList
 	if node, ok := m.tree.Find(topic); ok {
 		handlers, _ = node.Meta().(*list.SyncedList)
+		handlers.PushBack(handler)
 	} else {
 		handlers = list.NewSyncedList()
+		handlers.PushBack(handler)
+		m.tree.Add(topic, handlers)
 	}
-	handlers.PushBack(handler)
-	m.tree.Add(topic, handlers)
 }
 
 func (m *messageDriverMemory) Unsubscribe(topic string, handler MessageRunner) {

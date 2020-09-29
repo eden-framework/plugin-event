@@ -6,6 +6,6 @@ type DriverType uint8
 
 // driver type
 const (
-	DRIVER_TYPE_UNKNOWN DriverType = iota
-	DRIVER_TYPE__MEMORY            // 内存
+	DRIVER_TYPE_UNKNOWN  DriverType = iota
+	DRIVER_TYPE__BUILDIN            // 内存
 )

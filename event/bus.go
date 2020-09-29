@@ -7,7 +7,7 @@ type MessageBus struct {
 
 func (b *MessageBus) SetDefaults() {
 	if b.Driver == DRIVER_TYPE_UNKNOWN {
-		b.Driver = DRIVER_TYPE__MEMORY
+		b.Driver = DRIVER_TYPE__BUILDIN
 	}
 }
 
@@ -16,7 +16,7 @@ func (b *MessageBus) Init() {
 		return
 	}
 	switch b.Driver {
-	case DRIVER_TYPE__MEMORY:
+	case DRIVER_TYPE__BUILDIN:
 		b.messageDriver = newMemoryMessageBus()
 	default:
 		panic("[MessageBus] Driver must be defined")

@@ -26,7 +26,7 @@ var EventConfig = struct {
 	Event *{{ .UseWithoutAlias "github.com/eden-framework/plugin-event/event" "" }}.MessageBus
 }{
 	Event: &{{ .UseWithoutAlias "github.com/eden-framework/plugin-event/event" "" }}.MessageBus{
-		Driver: event.DRIVER_TYPE__MEMORY,
+		Driver: event.DRIVER_TYPE__BUILDIN,
 	},
 }
 `)

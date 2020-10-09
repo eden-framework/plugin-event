@@ -1,13 +1,13 @@
 package event
 
 type MessageBus struct {
-	Driver DriverType
+	Driver EventDriver
 	messageDriver
 }
 
 func (b *MessageBus) SetDefaults() {
-	if b.Driver == DRIVER_TYPE_UNKNOWN {
-		b.Driver = DRIVER_TYPE__BUILDIN
+	if b.Driver == EVENT_DRIVER_UNKNOWN {
+		b.Driver = EVENT_DRIVER__BUILDIN
 	}
 }
 
@@ -16,7 +16,7 @@ func (b *MessageBus) Init() {
 		return
 	}
 	switch b.Driver {
-	case DRIVER_TYPE__BUILDIN:
+	case EVENT_DRIVER__BUILDIN:
 		b.messageDriver = newMemoryMessageBus()
 	default:
 		panic("[MessageBus] Driver must be defined")
